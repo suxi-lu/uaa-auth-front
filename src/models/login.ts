@@ -1,16 +1,16 @@
-import { Reducer } from "redux";
-import { Effect } from "dva";
-import { stringify } from "querystring";
-import router from "umi/router";
+import { Reducer } from 'redux';
+import { Effect } from 'dva';
+import { stringify } from 'querystring';
+import { router } from 'umi';
 
-import { fakeAccountLogin, getFakeCaptcha } from "@/services/login";
-import { setAuthority } from "@/utils/authority";
-import { getPageQuery } from "@/utils/utils";
+import { fakeAccountLogin } from '@/services/login';
+import { setAuthority } from '@/utils/authority';
+import { getPageQuery } from '@/utils/utils';
 
 export interface StateType {
-  status?: "ok" | "error";
+  status?: 'ok' | 'error';
   type?: string;
-  currentAuthority?: "user" | "guest" | "admin";
+  currentAuthority?: 'user' | 'guest' | 'admin';
 }
 
 export interface LoginModelType {
@@ -18,7 +18,6 @@ export interface LoginModelType {
   state: StateType;
   effects: {
     login: Effect;
-    getCaptcha: Effect;
     logout: Effect;
   };
   reducers: {
@@ -27,21 +26,21 @@ export interface LoginModelType {
 }
 
 const Model: LoginModelType = {
-  namespace: "login",
+  namespace: 'login',
 
   state: {
-    status: undefined
+    status: undefined,
   },
 
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
-        type: "changeLoginStatus",
-        payload: response
+        type: 'changeLoginStatus',
+        payload: response,
       });
       // Login successfully
-      if (response.status === "ok") {
+      if (response.status === 'ok') {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params as { redirect: string };
@@ -50,33 +49,29 @@ const Model: LoginModelType = {
           if (redirectUrlParams.origin === urlParams.origin) {
             redirect = redirect.substr(urlParams.origin.length);
             if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf("#") + 1);
+              redirect = redirect.substr(redirect.indexOf('#') + 1);
             }
           } else {
-            window.location.href = "/";
+            window.location.href = '/';
             return;
           }
         }
-        router.replace(redirect || "/");
+        router.replace(redirect || '/');
       }
-    },
-
-    *getCaptcha({ payload }, { call }) {
-      yield call(getFakeCaptcha, payload);
     },
 
     logout() {
       const { redirect } = getPageQuery();
       // Note: There may be security issues, please note
-      if (window.location.pathname !== "/user/login" && !redirect) {
+      if (window.location.pathname !== '/user/login' && !redirect) {
         router.replace({
-          pathname: "/user/login",
+          pathname: '/user/login',
           search: stringify({
-            redirect: window.location.href
-          })
+            redirect: window.location.href,
+          }),
         });
       }
-    }
+    },
   },
 
   reducers: {
@@ -85,10 +80,10 @@ const Model: LoginModelType = {
       return {
         ...state,
         status: payload.status,
-        type: payload.type
+        type: payload.type,
       };
-    }
-  }
+    },
+  },
 };
 
 export default Model;

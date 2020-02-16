@@ -1,4 +1,4 @@
-import "jsdom-global/register";
+import 'jsdom-global/register';
 
 // browserMocks.js
 const localStorageMock = (() => {
@@ -13,10 +13,10 @@ const localStorageMock = (() => {
     },
     clear() {
       store = {};
-    }
+    },
   };
 })();
 
-Object.defineProperty(window, "localStorage", {
-  value: localStorageMock
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
 });

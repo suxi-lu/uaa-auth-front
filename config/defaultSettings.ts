@@ -1,6 +1,6 @@
-import { MenuTheme } from "antd/es/menu/MenuContext";
+import { MenuTheme } from 'antd/es/menu/MenuContext';
 
-export type ContentWidth = "Fluid" | "Fixed";
+export type ContentWidth = 'Fluid' | 'Fixed';
 
 export interface DefaultSettings {
   /**
@@ -14,7 +14,7 @@ export interface DefaultSettings {
   /**
    * nav menu position: `sidemenu` or `topmenu`
    */
-  layout: "sidemenu" | "topmenu";
+  layout: 'sidemenu' | 'topmenu';
   /**
    * layout of content: `Fluid` or `Fixed`, only works when layout is topmenu
    */
@@ -43,19 +43,19 @@ export interface DefaultSettings {
 }
 
 export default {
-  navTheme: "dark",
+  navTheme: 'dark',
   // 拂晓蓝
-  primaryColor: "daybreak",
-  layout: "sidemenu",
-  contentWidth: "Fluid",
+  primaryColor: 'daybreak',
+  layout: 'sidemenu',
+  contentWidth: 'Fluid',
   fixedHeader: false,
   autoHideHeader: false,
   fixSiderbar: false,
   colorWeak: false,
   menu: {
-    locale: true
+    locale: true,
   },
-  title: "Ant Design Pro",
+  title: 'Ant Design Pro',
   pwa: false,
-  iconfontUrl: ""
+  iconfontUrl: '',
 } as DefaultSettings;

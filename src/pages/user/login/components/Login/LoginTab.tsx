@@ -1,43 +1,34 @@
-import React, { Component } from "react";
-
-import { TabPaneProps } from "antd/es/tabs";
-import { Tabs } from "antd";
-import LoginContext, { LoginContextProps } from "./LoginContext";
+import React, { useEffect } from 'react';
+import { TabPaneProps } from 'antd/es/tabs';
+import { Tabs } from 'antd';
+import LoginContext, { LoginContextProps } from './LoginContext';
 
 const { TabPane } = Tabs;
 
 const generateId = (() => {
   let i = 0;
-  return (prefix = "") => {
+  return (prefix = '') => {
     i += 1;
     return `${prefix}${i}`;
   };
 })();
 
 interface LoginTabProps extends TabPaneProps {
-  tabUtil: LoginContextProps["tabUtil"];
+  tabUtil: LoginContextProps['tabUtil'];
 }
 
-class LoginTab extends Component<LoginTabProps> {
-  uniqueId: string = "";
-
-  constructor(props: LoginTabProps) {
-    super(props);
-    this.uniqueId = generateId("login-tab-");
-  }
-
-  componentDidMount() {
-    const { tabUtil } = this.props;
+const LoginTab: React.FC<LoginTabProps> = props => {
+  useEffect(() => {
+    const uniqueId = generateId('login-tab-');
+    const { tabUtil } = props;
     if (tabUtil) {
-      tabUtil.addTab(this.uniqueId);
+      tabUtil.addTab(uniqueId);
     }
-  }
+  }, []);
 
-  render() {
-    const { children } = this.props;
-    return <TabPane {...this.props}>{children}</TabPane>;
-  }
-}
+  const { children } = props;
+  return <TabPane {...props}>{children}</TabPane>;
+};
 
 const WrapContext: React.FC<TabPaneProps> & {
   typeName: string;
@@ -48,6 +39,6 @@ const WrapContext: React.FC<TabPaneProps> & {
 );
 
 // 标志位 用来判断是不是自定义组件
-WrapContext.typeName = "LoginTab";
+WrapContext.typeName = 'LoginTab';
 
 export default WrapContext;

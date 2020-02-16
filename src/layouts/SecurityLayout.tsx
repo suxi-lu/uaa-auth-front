@@ -1,10 +1,10 @@
-import React from "react";
-import { connect } from "dva";
-import { Redirect } from "umi";
-import { stringify } from "querystring";
-import { ConnectState, ConnectProps } from "@/models/connect";
-import { CurrentUser } from "@/models/user";
-import PageLoading from "@/components/PageLoading";
+import React from 'react';
+import { connect } from 'dva';
+import { PageLoading } from '@ant-design/pro-layout';
+import { Redirect } from 'umi';
+import { stringify } from 'querystring';
+import { ConnectState, ConnectProps } from '@/models/connect';
+import { CurrentUser } from '@/models/user';
 
 interface SecurityLayoutProps extends ConnectProps {
   loading?: boolean;
@@ -15,22 +15,19 @@ interface SecurityLayoutState {
   isReady: boolean;
 }
 
-class SecurityLayout extends React.Component<
-  SecurityLayoutProps,
-  SecurityLayoutState
-> {
+class SecurityLayout extends React.Component<SecurityLayoutProps, SecurityLayoutState> {
   state: SecurityLayoutState = {
-    isReady: false
+    isReady: false,
   };
 
   componentDidMount() {
     this.setState({
-      isReady: true
+      isReady: true,
     });
     const { dispatch } = this.props;
     if (dispatch) {
       dispatch({
-        type: "user/fetchCurrent"
+        type: 'user/fetchCurrent',
       });
     }
   }
@@ -42,7 +39,7 @@ class SecurityLayout extends React.Component<
     // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
     const isLogin = currentUser && currentUser.userid;
     const queryString = stringify({
-      redirect: window.location.href
+      redirect: window.location.href,
     });
 
     if ((!isLogin && loading) || !isReady) {
@@ -57,5 +54,5 @@ class SecurityLayout extends React.Component<
 
 export default connect(({ user, loading }: ConnectState) => ({
   currentUser: user.currentUser,
-  loading: loading.models.user
+  loading: loading.models.user,
 }))(SecurityLayout);

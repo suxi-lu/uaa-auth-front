@@ -1,11 +1,11 @@
-import path from "path";
+import path from 'path';
 
-import * as IWebpackChainConfig from "webpack-chain";
+import * as IWebpackChainConfig from 'webpack-chain';
 
 function getModulePackageName(module: { context: string }) {
   if (!module.context) return null;
 
-  const nodeModulesPath = path.join(__dirname, "../node_modules/");
+  const nodeModulesPath = path.join(__dirname, '../node_modules/');
   if (module.context.substring(0, nodeModulesPath.length) !== nodeModulesPath) {
     return null;
   }
@@ -14,7 +14,7 @@ function getModulePackageName(module: { context: string }) {
   const [moduleDirName] = moduleRelativePath.split(path.sep);
   let packageName: string | null = moduleDirName;
   // handle tree shaking
-  if (packageName && packageName.match("^_")) {
+  if (packageName && packageName.match('^_')) {
     // eslint-disable-next-line prefer-destructuring
     packageName = packageName.match(/^_(@?[^@]+)/)![1];
   }
@@ -27,22 +27,22 @@ export const webpackPlugin = (config: IWebpackChainConfig) => {
     // share the same chunks across different modules
     .runtimeChunk(false)
     .splitChunks({
-      chunks: "async",
-      name: "vendors",
+      chunks: 'async',
+      name: 'vendors',
       maxInitialRequests: Infinity,
       minSize: 0,
       cacheGroups: {
         vendors: {
           test: (module: { context: string }) => {
-            const packageName = getModulePackageName(module) || "";
+            const packageName = getModulePackageName(module) || '';
             if (packageName) {
               return [
-                "bizcharts",
-                "gg-editor",
-                "g6",
-                "@antv",
-                "gg-editor-core",
-                "bizcharts-plugin-slider"
+                'bizcharts',
+                'gg-editor',
+                'g6',
+                '@antv',
+                'gg-editor-core',
+                'bizcharts-plugin-slider',
               ].includes(packageName);
             }
             return false;
@@ -50,13 +50,13 @@ export const webpackPlugin = (config: IWebpackChainConfig) => {
           name(module: { context: string }) {
             const packageName = getModulePackageName(module);
             if (packageName) {
-              if (["bizcharts", "@antv_data-set"].indexOf(packageName) >= 0) {
-                return "viz"; // visualization package
+              if (['bizcharts', '@antv_data-set'].indexOf(packageName) >= 0) {
+                return 'viz'; // visualization package
               }
             }
-            return "misc";
-          }
-        }
-      }
+            return 'misc';
+          },
+        },
+      },
     });
 };
