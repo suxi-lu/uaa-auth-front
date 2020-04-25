@@ -1,7 +1,7 @@
-import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox } from 'antd';
+// import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
+import { Alert } from 'antd';
 import React, { useState } from 'react';
-import { Link, connect, Dispatch } from 'umi';
+import { connect, Dispatch } from 'umi';
 import { StateType } from '@/models/login';
 import { LoginParamsType } from '@/services/login';
 import { ConnectState } from '@/models/connect';
@@ -9,7 +9,7 @@ import LoginFrom from './components/Login';
 
 import styles from './style.less';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
+const { Tab, UserName, Password, Submit } = LoginFrom;
 interface LoginProps {
   dispatch: Dispatch;
   userLogin: StateType;
@@ -32,7 +32,7 @@ const LoginMessage: React.FC<{
 const Login: React.FC<LoginProps> = (props) => {
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
-  const [autoLogin, setAutoLogin] = useState(true);
+  // const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
 
   const handleSubmit = (values: LoginParamsType) => {
@@ -51,8 +51,8 @@ const Login: React.FC<LoginProps> = (props) => {
           )}
 
           <UserName
-            name="userName"
-            placeholder="用户名: admin or user"
+            name="username"
+            placeholder="请输入用户名"
             rules={[
               {
                 required: true,
@@ -62,7 +62,7 @@ const Login: React.FC<LoginProps> = (props) => {
           />
           <Password
             name="password"
-            placeholder="密码: ant.design"
+            placeholder="请输入密码"
             rules={[
               {
                 required: true,
@@ -71,7 +71,7 @@ const Login: React.FC<LoginProps> = (props) => {
             ]}
           />
         </Tab>
-        <Tab key="mobile" tab="手机号登录">
+        {/* <Tab key="mobile" tab="手机号登录">
           {status === 'error' && loginType === 'mobile' && !submitting && (
             <LoginMessage content="验证码错误" />
           )}
@@ -102,8 +102,8 @@ const Login: React.FC<LoginProps> = (props) => {
               },
             ]}
           />
-        </Tab>
-        <div>
+        </Tab> */}
+        {/* <div>
           <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
             自动登录
           </Checkbox>
@@ -114,9 +114,9 @@ const Login: React.FC<LoginProps> = (props) => {
           >
             忘记密码
           </a>
-        </div>
+        </div> */}
         <Submit loading={submitting}>登录</Submit>
-        <div className={styles.other}>
+        {/* <div className={styles.other}>
           其他登录方式
           <AlipayCircleOutlined className={styles.icon} />
           <TaobaoCircleOutlined className={styles.icon} />
@@ -124,7 +124,7 @@ const Login: React.FC<LoginProps> = (props) => {
           <Link className={styles.register} to="/user/register">
             注册账户
           </Link>
-        </div>
+        </div> */}
       </LoginFrom>
     </div>
   );

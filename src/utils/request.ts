@@ -53,4 +53,23 @@ const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
 });
 
+// request拦截器
+request.interceptors.request.use(
+  (url, options) => {
+    if (url.indexOf('/api/v0/auth/login') >= 0) {
+      return { url, options };
+    }
+    const token = localStorage.getItem('token');
+    const headers = {
+      ...options.headers,
+      Authorization: token || '',
+    };
+    return {
+      url,
+      options: { ...options, headers },
+    };
+  },
+  { global: true },
+);
+
 export default request;

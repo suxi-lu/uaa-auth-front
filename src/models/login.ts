@@ -6,8 +6,10 @@ import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 
 export interface StateType {
-  status?: 'ok' | 'error';
+  status?: Number | 'ok' | 'error';
   type?: string;
+  token?: string;
+  userInfo?: Object;
   currentAuthority?: 'user' | 'guest' | 'admin';
 }
 
@@ -28,6 +30,7 @@ const Model: LoginModelType = {
 
   state: {
     status: undefined,
+    userInfo: {},
   },
 
   effects: {
@@ -35,10 +38,10 @@ const Model: LoginModelType = {
       const response = yield call(fakeAccountLogin, payload);
       yield put({
         type: 'changeLoginStatus',
-        payload: response,
+        payload: response.data,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.status === 200) {
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params as { redirect: string };
@@ -74,11 +77,16 @@ const Model: LoginModelType = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      const { authorities, token, ...userInfo } = payload;
+      setAuthority(authorities);
+      // console.log(authorities, token, userInfo);
+      localStorage.setItem('token', token);
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+
+        type: '',
+        token,
+        userInfo,
       };
     },
   },

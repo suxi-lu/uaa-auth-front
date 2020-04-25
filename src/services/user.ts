@@ -5,7 +5,9 @@ export async function query(): Promise<any> {
 }
 
 export async function queryCurrent(): Promise<any> {
-  return request('/api/currentUser');
+  return request('/api/v0/auth/profile', {
+    method: 'POST',
+  });
 }
 
 export async function queryNotices(): Promise<any> {

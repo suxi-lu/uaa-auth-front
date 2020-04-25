@@ -81,7 +81,7 @@ export default {
     const { password, userName, type } = req.body;
     if (password === 'ant.design' && userName === 'admin') {
       res.send({
-        status: 'ok',
+        status: 200,
         type,
         currentAuthority: 'admin',
       });
@@ -89,7 +89,7 @@ export default {
     }
     if (password === 'ant.design' && userName === 'user') {
       res.send({
-        status: 'ok',
+        status: 200,
         type,
         currentAuthority: 'user',
       });
@@ -97,7 +97,7 @@ export default {
     }
     if (type === 'mobile') {
       res.send({
-        status: 'ok',
+        status: 200,
         type,
         currentAuthority: 'admin',
       });
@@ -111,7 +111,7 @@ export default {
     });
   },
   'POST /api/register': (req: Request, res: Response) => {
-    res.send({ status: 'ok', currentAuthority: 'user' });
+    res.send({ status: 200, currentAuthority: 'user' });
   },
   'GET /api/500': (req: Request, res: Response) => {
     res.status(500).send({
